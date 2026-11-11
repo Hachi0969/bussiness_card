@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex">
+  <title>Open House Card</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <p id="testBanner" class="test-banner" data-i18n="testBanner" hidden></p>
+  <div id="inAppBanner" class="in-app" hidden>
+    <p data-i18n="inAppTitle"></p>
+    <a id="inAppLink" class="btn btn-small" data-i18n="inAppLine" hidden></a>
+    <p id="inAppOther" data-i18n="inAppOther" hidden></p>
+  </div>
+
+  <header class="top">
+    <h1 data-i18n="title"></h1>
+    <button id="langToggle" type="button" class="btn-text"></button>
+  </header>
+
+  <main class="layout">
+    <div id="previewWrap" class="preview-wrap">
+      <canvas id="preview" class="card-canvas" width="1080" height="1350" role="img" aria-label="Card preview"></canvas>
+    </div>
+
+    <div class="panel">
+      <p id="stepLabel" class="step-label"></p>
+
+      <section data-step="details">
+        <p class="intro" data-i18n="intro"></p>
+        <h2 tabindex="-1" data-i18n="detailsTitle"></h2>
+        <p class="hint" data-i18n="onlyShare"></p>
+        <label for="nickname" data-i18n="nickname"></label>
+        <input id="nickname" maxlength="30" autocomplete="off" required>
+        <label for="future" data-i18n="future"></label>
+        <div class="prefixed">
+          <span data-i18n="futurePrefix"></span>
+          <input id="future" maxlength="40" autocomplete="off">
+        </div>
+        <label for="email" data-i18n="email"></label>
+        <input id="email" type="email" inputmode="email" maxlength="120" autocomplete="off">
+        <label for="platform" data-i18n="social"></label>
+        <select id="platform">
+          <option value="" data-i18n="socialNone"></option>
+          <option value="line">LINE</option>
+          <option value="instagram">Instagram</option>
+          <option value="tiktok">TikTok</option>
+          <option value="facebook">Facebook</option>
+        </select>
+        <div id="handleRow" hidden>
+          <label for="handle" data-i18n="handle"></label>
+          <input id="handle" maxlength="120" autocomplete="off" autocapitalize="none">
+        </div>
+        <p id="detailsError" class="error" role="alert"></p>
+        <div class="actions"><button id="detailsNext" type="button" class="btn" data-i18n="next"></button></div>
+      </section>
+
+      <section data-step="picture" hidden>
+        <h2 tabindex="-1" data-i18n="pictureTitle"></h2>
+        <p class="hint" data-i18n="picturePrompt"></p>
+        <label for="photoInput" class="btn btn-secondary file-btn" data-i18n="choosePhoto"></label>
+        <input id="photoInput" class="visually-hidden" type="file" accept="image/*">
+        <p id="photoError" class="error" role="alert"></p>
+        <div id="cropper" hidden>
+          <canvas id="cropCanvas" class="crop-canvas" width="640" height="640"></canvas>
+          <p class="hint" data-i18n="cropHint"></p>
+          <label for="zoom" data-i18n="zoom"></label>
+          <input id="zoom" type="range" min="1" max="3" step="0.01" value="1">
+          <button id="removePhoto" type="button" class="btn-text" data-i18n="removePhoto"></button>
+        </div>
+        <div id="avatarArea">
+          <p class="group-label" data-i18n="avatarLabel"></p>
+          <div id="avatars" class="choice-grid"></div>
+        </div>
+        <div class="actions">
+          <button type="button" class="btn btn-secondary" data-go="details" data-i18n="back"></button>
+          <button type="button" class="btn" data-go="theme" data-i18n="next"></button>
+        </div>
+      </section>
+
+      <section data-step="theme" hidden>
+        <h2 tabindex="-1" data-i18n="themeTitle"></h2>
+        <div id="themes" class="choice-grid theme-grid"></div>
+        <label class="check">
+          <input id="includeQr" type="checkbox" checked>
+          <span data-i18n="qrToggle"></span>
+        </label>
+        <p id="qrNote" class="hint" data-i18n="qrNeedsContact" hidden></p>
+        <div class="actions">
+          <button type="button" class="btn btn-secondary" data-go="picture" data-i18n="back"></button>
+          <button id="makeCard" type="button" class="btn" data-i18n="makeCard"></button>
+        </div>
+      </section>
+
+      <section data-step="save" hidden>
+        <h2 tabindex="-1" data-i18n="saveTitle"></h2>
+        <img id="finalCard" class="card-canvas" alt="">
+        <p id="qrWarning" class="notice" data-i18n="qrWarning" hidden></p>
+        <div class="actions stack">
+          <a id="saveLink" class="btn" download="open-house-card.png" data-i18n="save"></a>
+          <button id="shareBtn" type="button" class="btn btn-secondary" data-i18n="share" hidden></button>
+        </div>
+        <p class="hint" data-i18n="holdHint"></p>
+        <div class="actions">
+          <button type="button" class="btn btn-secondary" data-go="theme" data-i18n="editCard"></button>
+          <button type="button" class="btn" data-go="follow" data-i18n="continue"></button>
+        </div>
+      </section>
+
+      <section data-step="follow" hidden>
+        <h2 tabindex="-1" data-i18n="followTitle"></h2>
+        <p id="followBody"></p>
+        <p class="hint" data-i18n="optional"></p>
+        <p id="followTest" class="notice" data-i18n="testNoReal" hidden></p>
+        <form id="followForm" novalidate>
+          <!-- Hidden from people. Only bots fill this in. -->
+          <div class="visually-hidden" aria-hidden="true">
+            <label for="website">Website</label>
+            <input id="website" name="website" tabindex="-1" autocomplete="off">
+          </div>
+          <label for="leadName" data-i18n="name"></label>
+          <input id="leadName" maxlength="80" autocomplete="off">
+          <label for="leadGrade" data-i18n="grade"></label>
+          <select id="leadGrade">
+            <option value="" data-i18n="choose"></option>
+            <option value="9" data-i18n="g9"></option>
+            <option value="10" data-i18n="g10"></option>
+            <option value="11" data-i18n="g11"></option>
+            <option value="12" data-i18n="g12"></option>
+          </select>
+          <label for="leadProgram" data-i18n="program"></label>
+          <select id="leadProgram"></select>
+          <label for="leadMethod" data-i18n="contactMethod"></label>
+          <select id="leadMethod">
+            <option value="" data-i18n="choose"></option>
+            <option value="phone" data-i18n="phone"></option>
+            <option value="email" data-i18n="emailShort"></option>
+            <option value="line" data-i18n="lineShort"></option>
+          </select>
+          <label for="leadContact" data-i18n="contactValue"></label>
+          <input id="leadContact" maxlength="120" autocomplete="off" autocapitalize="none">
+          <label class="check">
+            <input id="leadConsent" type="checkbox">
+            <span data-i18n="consent"></span>
+          </label>
+          <p id="followError" class="error" role="alert"></p>
+          <div class="actions">
+            <button id="noThanks" type="button" class="btn btn-secondary" data-i18n="noThanks"></button>
+            <button id="sendLead" type="submit" class="btn" data-i18n="send"></button>
+          </div>
+        </form>
+      </section>
+
+      <section data-step="done" hidden>
+        <h2 tabindex="-1" data-i18n="doneTitle"></h2>
+        <p id="doneMessage"></p>
+        <div class="actions"><button type="button" class="btn btn-secondary" data-go="save" data-i18n="backToCard"></button></div>
+      </section>
+    </div>
+  </main>
+
+  <script src="vendor/qrcode.js"></script>
+  <script type="module" src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,156 @@
+@font-face { font-family: Kanit; font-weight: 500; font-display: swap; src: url(vendor/fonts/kanit-thai-500-normal.woff2) format("woff2"); unicode-range: U+0E01-0E5B, U+200C-200D, U+25CC; }
+@font-face { font-family: Kanit; font-weight: 500; font-display: swap; src: url(vendor/fonts/kanit-latin-500-normal.woff2) format("woff2"); unicode-range: U+0000-00FF, U+2000-206F, U+20AC, U+2122; }
+@font-face { font-family: Kanit; font-weight: 700; font-display: swap; src: url(vendor/fonts/kanit-thai-700-normal.woff2) format("woff2"); unicode-range: U+0E01-0E5B, U+200C-200D, U+25CC; }
+@font-face { font-family: Kanit; font-weight: 700; font-display: swap; src: url(vendor/fonts/kanit-latin-700-normal.woff2) format("woff2"); unicode-range: U+0000-00FF, U+2000-206F, U+20AC, U+2122; }
+@font-face { font-family: Sarabun; font-weight: 400; font-display: swap; src: url(vendor/fonts/sarabun-thai-400-normal.woff2) format("woff2"); unicode-range: U+0E01-0E5B, U+200C-200D, U+25CC; }
+@font-face { font-family: Sarabun; font-weight: 400; font-display: swap; src: url(vendor/fonts/sarabun-latin-400-normal.woff2) format("woff2"); unicode-range: U+0000-00FF, U+2000-206F, U+20AC, U+2122; }
+@font-face { font-family: Sarabun; font-weight: 600; font-display: swap; src: url(vendor/fonts/sarabun-thai-600-normal.woff2) format("woff2"); unicode-range: U+0E01-0E5B, U+200C-200D, U+25CC; }
+@font-face { font-family: Sarabun; font-weight: 600; font-display: swap; src: url(vendor/fonts/sarabun-latin-600-normal.woff2) format("woff2"); unicode-range: U+0000-00FF, U+2000-206F, U+20AC, U+2122; }
+
+:root {
+  color-scheme: light;
+  --bg: #f4f1e8;
+  --surface: #ffffff;
+  --ink: #16282a;
+  --muted: #55625f;
+  --line: #cfd4cc;
+  --brand: #17403f;
+  --brand-ink: #ffffff;
+  --accent: #a8481f;
+  --error: #b3261e;
+}
+
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font: 400 17px/1.55 Sarabun, system-ui, sans-serif;
+}
+
+h1, h2 { font-family: Kanit, Sarabun, sans-serif; font-weight: 500; line-height: 1.25; }
+h1 { margin: 0; font-size: 20px; }
+h2 { margin: 0 0 8px; font-size: 26px; }
+h2:focus { outline: none; }
+p { margin: 0 0 12px; }
+
+.top { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 12px 16px; }
+.layout { display: grid; gap: 16px; max-width: 920px; margin: 0 auto; padding: 0 16px 40px; }
+.panel { min-width: 0; padding: 20px 16px; background: var(--surface); border-radius: 16px; }
+
+.preview-wrap { display: flex; justify-content: center; }
+.preview-wrap .card-canvas { width: min(46vw, 220px); }
+.card-canvas { display: block; height: auto; border-radius: 12px; box-shadow: 0 6px 20px rgb(22 40 42 / 22%); }
+section > .card-canvas { width: min(100%, 340px); aspect-ratio: 4 / 5; margin: 12px auto 16px; background: #e3e8e2; }
+
+.step-label { margin-bottom: 4px; color: var(--accent); font-size: 15px; font-weight: 600; }
+.intro { padding: 10px 12px; background: #e8efe9; border-radius: 10px; font-size: 16px; }
+.hint { color: var(--muted); font-size: 15px; }
+.notice { padding: 10px 12px; background: #fbeee4; border-radius: 10px; font-size: 15px; }
+.error { min-height: 0; margin: 10px 0 0; color: var(--error); font-size: 15px; font-weight: 600; }
+.error:empty { display: none; }
+
+label, .group-label { display: block; margin: 14px 0 4px; font-weight: 600; font-size: 16px; }
+input:not([type="checkbox"], [type="range"], [type="file"]), select {
+  width: 100%;
+  min-height: 48px;
+  padding: 10px 12px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: #fff;
+  color: inherit;
+  font: inherit;
+  font-size: 17px;
+}
+input:focus-visible, select:focus-visible, button:focus-visible, a:focus-visible, .file-btn:focus-within {
+  outline: 3px solid var(--accent);
+  outline-offset: 2px;
+}
+input[type="range"] { width: 100%; min-height: 32px; accent-color: var(--brand); }
+
+.prefixed { display: flex; align-items: center; gap: 8px; }
+.prefixed span { flex: none; color: var(--muted); }
+
+.check { display: flex; align-items: flex-start; gap: 10px; margin: 18px 0 4px; }
+.check input { flex: none; width: 24px; height: 24px; margin: 1px 0 0; accent-color: var(--brand); }
+
+.actions { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 10px; margin-top: 20px; }
+.actions.stack { flex-direction: column; }
+
+.btn {
+  display: inline-flex;
+  flex: 1 1 auto;
+  align-items: center;
+  justify-content: center;
+  min-height: 50px;
+  padding: 10px 20px;
+  border: 0;
+  border-radius: 12px;
+  background: var(--brand);
+  color: var(--brand-ink);
+  font: 600 17px/1.25 Sarabun, sans-serif;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+}
+.btn[disabled] { opacity: .6; cursor: default; }
+.btn-secondary { background: #e3e8e2; color: var(--ink); }
+.btn-small { min-height: 44px; font-size: 15px; }
+.btn-text { min-height: 44px; padding: 8px 4px; border: 0; background: none; color: var(--brand); font: 600 16px Sarabun, sans-serif; text-decoration: underline; cursor: pointer; }
+.file-btn { display: flex; margin: 8px 0; color: var(--ink); font-weight: 600; }
+
+.visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+
+.crop-canvas { display: block; width: min(100%, 280px); margin: 12px auto; border-radius: 16px; touch-action: none; cursor: grab; background: #ddd; }
+
+.choice-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+.choice {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  min-height: 72px;
+  padding: 8px;
+  border: 2px solid var(--line);
+  border-radius: 12px;
+  background: #fff;
+  color: inherit;
+  font: 600 15px Sarabun, sans-serif;
+  cursor: pointer;
+}
+.choice[aria-pressed="true"] { border-color: var(--accent); box-shadow: 0 0 0 2px var(--accent); }
+.choice canvas { display: block; width: 100%; max-width: 72px; border-radius: 8px; }
+.theme-grid { grid-template-columns: repeat(2, 1fr); margin-top: 12px; }
+.theme-grid .choice canvas { max-width: 90px; }
+
+.test-banner { margin: 0; padding: 8px 16px; background: #5c1f10; color: #fff; font-size: 14px; font-weight: 600; text-align: center; }
+.in-app { padding: 12px 16px; background: #fbeee4; font-size: 15px; }
+
+@media (min-width: 760px) {
+  .layout { grid-template-columns: 300px 1fr; align-items: start; }
+  .preview-wrap { position: sticky; top: 16px; }
+  .preview-wrap .card-canvas { width: 300px; }
+  .panel { padding: 28px; }
+  .layout.no-preview { grid-template-columns: minmax(0, 600px); justify-content: center; }
+}
+
+/* Staff list */
+.admin { max-width: 1120px; margin: 0 auto; padding: 16px; }
+.admin-login { display: flex; flex-wrap: wrap; gap: 10px; align-items: end; }
+.admin-login > div { flex: 1 1 260px; }
+.table-wrap { margin-top: 16px; overflow-x: auto; background: var(--surface); border-radius: 12px; }
+table { width: 100%; border-collapse: collapse; font-size: 15px; }
+th, td { padding: 10px 12px; border-bottom: 1px solid var(--line); text-align: left; white-space: nowrap; }
+td select { min-height: 40px !important; padding: 6px 8px !important; font-size: 15px !important; }
+
+/* Poster */
+.poster { display: flex; flex-direction: column; align-items: center; gap: 20px; max-width: 640px; margin: 0 auto; padding: 40px 16px; text-align: center; }
+.poster h1 { font-size: clamp(32px, 8vw, 56px); }
+.poster canvas { width: min(100%, 420px); height: auto; image-rendering: pixelated; }
+.poster .url { overflow-wrap: anywhere; color: var(--muted); }
+@media print {
+  .no-print { display: none !important; }
+  body { background: #fff; }
+}

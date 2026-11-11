@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex">
+  <title>Follow-up List</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <p class="test-banner">Test version: this list should only hold made-up details</p>
+  <main class="admin">
+    <h1>Follow-up list</h1>
+    <form id="login" class="admin-login">
+      <div>
+        <label for="token">Staff token</label>
+        <input id="token" type="password" autocomplete="off">
+      </div>
+      <button class="btn" type="submit">Open list</button>
+    </form>
+    <p id="message" class="error" role="alert"></p>
+    <div id="results" hidden>
+      <p id="count" class="hint"></p>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Received</th><th>Name</th><th>Grade</th><th>Program</th><th>Contact by</th><th>Contact</th><th>Status</th><th></th></tr>
+          </thead>
+          <tbody id="rows"></tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+  <script type="module" src="admin.js"></script>
+</body>
+</html>
