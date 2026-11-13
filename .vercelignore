@@ -1,0 +1,5 @@
+data/
+scripts/
+tests/
+supabase/
+server.mjs

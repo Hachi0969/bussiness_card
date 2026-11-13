@@ -1,4 +1,5 @@
 import { CONFIG } from './config.js';
+import { deleteLead, listLeads, setLeadStatus } from './api.js';
 
 const $ = (id) => document.getElementById(id);
 const STATUS_LABELS = {
@@ -13,13 +14,8 @@ const METHOD_LABELS = { phone: 'Phone', email: 'Email', line: 'LINE' };
 // The token is kept in memory only, so closing the page signs staff out.
 let token = '';
 
-async function api(path, options = {}) {
-  const response = await fetch(path, {
-    ...options,
-    headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
-  });
-  if (!response.ok) throw new Error(response.status === 401 ? 'That token isn’t right.' : 'Something went wrong. Please try again.');
-  return response.json();
+function friendly(err) {
+  return err.code === 'unauthorized' ? 'That token isn’t right.' : 'Something went wrong. Please try again.';
 }
 
 function cell(text) {
@@ -38,12 +34,12 @@ function renderRow(lead) {
   select.value = lead.status;
   select.addEventListener('change', async () => {
     try {
-      await api(`/api/admin/leads/${lead.id}`, { method: 'PATCH', body: JSON.stringify({ status: select.value }) });
+      await setLeadStatus(token, lead.id, select.value);
       lead.status = select.value;
       $('message').textContent = '';
     } catch (err) {
       select.value = lead.status;
-      $('message').textContent = err.message;
+      $('message').textContent = friendly(err);
     }
   });
   const statusCell = document.createElement('td');
@@ -56,10 +52,10 @@ function renderRow(lead) {
   remove.addEventListener('click', async () => {
     if (!confirm(`Permanently delete ${lead.name}’s details?`)) return;
     try {
-      await api(`/api/admin/leads/${lead.id}`, { method: 'DELETE' });
+      await deleteLead(token, lead.id);
       await load();
     } catch (err) {
-      $('message').textContent = err.message;
+      $('message').textContent = friendly(err);
     }
   });
   const removeCell = document.createElement('td');
@@ -79,7 +75,7 @@ function renderRow(lead) {
 }
 
 async function load() {
-  const { leads } = await api('/api/admin/leads');
+  const leads = await listLeads(token);
   $('count').textContent = `${leads.length} ${leads.length === 1 ? 'entry' : 'entries'}`;
   $('rows').replaceChildren(...leads.map(renderRow));
   $('results').hidden = false;
@@ -95,6 +91,6 @@ $('login').addEventListener('submit', async (event) => {
     await load();
   } catch (err) {
     token = '';
-    $('message').textContent = err.message;
+    $('message').textContent = friendly(err);
   }
 });

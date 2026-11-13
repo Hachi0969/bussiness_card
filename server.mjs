@@ -31,7 +31,7 @@ const MIME = {
 
 const SECURITY_HEADERS = {
   'Content-Security-Policy':
-    "default-src 'none'; script-src 'self'; style-src 'self'; font-src 'self'; img-src 'self' blob: data:; connect-src 'self'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'",
+    `default-src 'none'; script-src 'self'; style-src 'self'; font-src 'self'; img-src 'self' blob: data:; connect-src 'self'${CONFIG.supabase ? ` ${CONFIG.supabase.url}` : ''}; base-uri 'none'; form-action 'none'; frame-ancestors 'none'`,
   'X-Content-Type-Options': 'nosniff',
   'Referrer-Policy': 'no-referrer',
 };

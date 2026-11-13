@@ -2,6 +2,7 @@ import { CONFIG } from './config.js';
 import { TEXT } from './i18n.js';
 import { AVATARS, CARD_H, CARD_W, THEMES, drawPhoto, renderCard } from './card.js';
 import { EMAIL_RE, HANDLE_RE, buildVCard, normalizeHandle } from './contact.js';
+import { submitLead as sendLead } from './api.js';
 
 const $ = (id) => document.getElementById(id);
 const STEP_NUMBERS = { details: 1, picture: 2, theme: 3, save: 4 };
@@ -335,31 +336,22 @@ async function submitLead(event) {
   button.disabled = true;
   button.textContent = t('sending');
   try {
-    const response = await fetch('/api/leads', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
+    // Only bots fill in the hidden field. They see the normal thank-you, but nothing is sent.
+    if (!$('website').value) {
+      await sendLead({
         name: $('leadName').value,
         grade: Number($('leadGrade').value),
         programId: $('leadProgram').value,
         contactMethod: $('leadMethod').value,
         contactValue: $('leadContact').value,
-        consent: true,
-        noticeVersion: CONFIG.noticeVersion,
-        website: $('website').value,
-      }),
-    });
-    if (response.ok) {
-      $('followForm').reset();
-      doneKey = 'doneSent';
-      $('doneMessage').textContent = t(doneKey);
-      goTo('done');
-      return;
+      });
     }
-    const data = await response.json().catch(() => ({}));
-    error.textContent = t(response.status === 429 ? 'errBusy' : data.error === 'invalid_contact' ? 'errContact' : 'errSend');
-  } catch {
-    error.textContent = t('errSend');
+    $('followForm').reset();
+    doneKey = 'doneSent';
+    $('doneMessage').textContent = t(doneKey);
+    goTo('done');
+  } catch (err) {
+    error.textContent = t(err.code === 'too_many_requests' ? 'errBusy' : err.code === 'invalid_contact' ? 'errContact' : 'errSend');
   } finally {
     button.disabled = false;
     button.textContent = t('send');

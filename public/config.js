@@ -10,6 +10,13 @@ export const CONFIG = {
   eventDate: { th: 'วันที่จัดงาน', en: 'Event date' },
   admissionsText: 'example.com/admissions',
 
+  // Where follow-up entries go. The publishable key is meant to be public: the database only
+  // lets it call the functions in supabase/migrations. Set to null to use the local test server.
+  supabase: {
+    url: 'https://fdiswbnjmahwzvifyymv.supabase.co',
+    publishableKey: 'sb_publishable_FICwgzzsX-kX0m_Dhzce2g_uAT0snn1',
+  },
+
   privacyContact: 'privacy@example.com',
   // Change this whenever the consent wording changes. Each entry records the version it agreed to.
   noticeVersion: 'draft-1',
