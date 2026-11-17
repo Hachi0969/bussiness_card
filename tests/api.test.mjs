@@ -12,7 +12,7 @@ let base;
 const valid = () => ({
   name: 'นักเรียนทดสอบ',
   grade: 11,
-  programId: 'program-a',
+  programId: 'dti',
   contactMethod: 'email',
   contactValue: 'student@example.com',
   consent: true,
